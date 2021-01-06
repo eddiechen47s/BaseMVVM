@@ -11,7 +11,7 @@ protocol SignDelegate: AnyObject {
     func didIsSign(signed: Bool)
 }
 
-class SettingViewModel: APIClient {
+class SettingViewModel: APIClientDelegate {
     var order = AddCoffeeOrder()
     var data = [AddCoffeeOrder]()
     weak var delegate: SignDelegate?

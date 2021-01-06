@@ -24,6 +24,10 @@ struct Resource<T: Codable> {
     var body: Data? = nil
 }
 
+protocol APIClientDelegate: AnyObject {
+    func create<T>(url: String, vm: T) -> Resource<T?>
+}
+
 class APIClient {
     // Signleton
     static let shared = APIClient()
@@ -53,25 +57,25 @@ class APIClient {
         }.resume()
 
     }
-    
-    
-    func create<T>(url: String, vm: T) -> Resource<T?> {
-       
-       guard let url = URL(string: url) else {
-           fatalError("url error")
-       }
-       
-       guard let data = try? JSONEncoder().encode(vm) else {
-           fatalError("Error encoding data")
-       }
-       
-       var resource = Resource<T?>(url: url)
-       resource.httpMethod = HttpsMethod.post
-       resource.body = data
-       
-       return resource
-   }
+
     
 }
 
-
+extension APIClientDelegate {
+    func create<T>(url: String, vm: T) -> Resource<T?> {
+        
+        guard let url = URL(string: url) else {
+            fatalError("url error")
+        }
+        
+        guard let data = try? JSONEncoder().encode(vm) else {
+            fatalError("Error encoding data")
+        }
+        
+        var resource = Resource<T?>(url: url)
+        resource.httpMethod = HttpsMethod.post
+        resource.body = data
+        
+        return resource
+    }
+}
