@@ -14,6 +14,7 @@ class MainViewController: UIViewController {
         
         view.backgroundColor = .systemRed
         setupNav()
+        print("應該是可以push")
     }
     
     func setupNav() {
